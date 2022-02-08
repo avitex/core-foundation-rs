@@ -31,12 +31,11 @@ pub type CGDataProviderReleaseDataCallback = Option<unsafe extern fn (*mut c_voi
 pub type CGDataProviderGetBytesAtPositionCallback = Option<unsafe extern fn (*mut c_void, *mut c_void, off_t, size_t)>;
 
 foreign_type! {
-    #[doc(hidden)]
-    type CType = ::sys::CGDataProvider;
-    fn drop = |cs| CFRelease(cs as *mut _);
-    fn clone = |p| CFRetain(p as *const _) as *mut _;
-    pub struct CGDataProvider;
-    pub struct CGDataProviderRef;
+    pub unsafe type CGDataProvider {
+        type CType = ::sys::CGDataProvider;
+        fn drop = |cs| CFRelease(cs as *mut _);
+        fn clone = |p| CFRetain(p as *const _) as *mut _;
+    }
 }
 
 impl CGDataProvider {

@@ -108,12 +108,11 @@ pub enum CGInterpolationQuality {
 }
 
 foreign_type! {
-    #[doc(hidden)]
-    type CType = ::sys::CGContext;
-    fn drop = |cs| CGContextRelease(cs);
-    fn clone = |p| CGContextRetain(p);
-    pub struct CGContext;
-    pub struct CGContextRef;
+    pub unsafe type CGContext {
+        type CType = ::sys::CGContext;
+        fn drop = |cs| CGContextRelease(cs);
+        fn clone = |p| CGContextRetain(p);
+    }
 }
 
 impl CGContext {

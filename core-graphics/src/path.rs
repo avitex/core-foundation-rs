@@ -16,16 +16,15 @@ use libc::c_void;
 use std::fmt::{self, Debug, Formatter};
 use std::marker::PhantomData;
 use std::ops::Deref;
-use std::ptr;
+use std::ptr::{self, NonNull};
 use std::slice;
 
 foreign_type! {
-    #[doc(hidden)]
-    type CType = ::sys::CGPath;
-    fn drop = |p| CFRelease(p as *mut _);
-    fn clone = |p| CFRetain(p as *const _) as *mut _;
-    pub struct CGPath;
-    pub struct CGPathRef;
+    pub unsafe type CGPath {
+        type CType = ::sys::CGPath;
+        fn drop = |p| CFRelease(p as *mut _);
+        fn clone = |p| CFRetain(p as *const _) as *mut _;
+    }
 }
 
 impl CGPath {
@@ -35,7 +34,7 @@ impl CGPath {
                 None => ptr::null(),
                 Some(transform) => transform as *const CGAffineTransform,
             };
-            CGPath(CGPathCreateWithRect(rect, transform))
+            CGPath(NonNull::new_unchecked(CGPathCreateWithRect(rect, transform)))
         }
     }
 

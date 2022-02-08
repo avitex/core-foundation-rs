@@ -1,2 +1,7 @@
 [workspace]
 members = ["core-foundation", "core-foundation-sys", "core-graphics-types", "core-graphics", "core-text", "cocoa", "cocoa-foundation", "io-surface"]
+
+[patch.crates-io]
+foreign-types = { git = "https://github.com/avitex/foreign-types", branch = "support-closure-expr" }
+foreign-types-macros = { git = "https://github.com/avitex/foreign-types", branch = "support-closure-expr" }
+foreign-types-shared = { git = "https://github.com/avitex/foreign-types", branch = "support-closure-expr" }
